@@ -8,3 +8,5 @@ Or run it in your local machine =>
 4. Install node modules => "npm install"
 5. Run the project => "npm start"
 6. The project will start in your browser.
+
+Technology Used: React js, Tailwind CSS
