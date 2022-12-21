@@ -1,24 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { Fragment, useCallback, useState } from "react";
+import Form from "./components/Form";
+import Table from "./components/Table";
+import "./index.css";
 function App() {
+  const [data, setData] = useState([]);
+  const [status, setStatus] = useState("");
+  const dataFetch = useCallback(async () => {
+    const response = await fetch("LHR_CDG_ADT1_TYPE_1.txt");
+    if (response.ok) {
+      setStatus("success");
+    }
+    const data = await response.json();
+    console.log(data);
+    setData(data);
+  }, []);
+  const searchHandler = () => {
+    dataFetch();
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+      <Form search={searchHandler} />
+      <div className="text-center my-2">{data.message}</div>
+      {status === "success" ? <Table data={data} /> : ""}
+    </Fragment>
   );
 }
 
